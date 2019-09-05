@@ -75,11 +75,6 @@ The entire game should be an object.
 		- Picks random word from array and returns it
 
 
-	- createCurrentWordArr(currentWord)
-		- return currentWord.split('')
-			- returns an array with each character as an item
-
-
 	- displayUnguessed(currentWordArr)
 
 		- ForEach letter in currentWordArr, push an underscore to
@@ -201,11 +196,11 @@ The entire game should be an object.
 
 - Loop
 	- The user presses a key for a letter 
-		- This is assigned to letterGuessed property
-	- The game checks if the letterGuessed is in the correctGuessArr
-	  or in wrongGuessArr
+		- This is assigned to userGuess variable
+	- The game checks if the letterGuessed is in the lettersGuessed array
 		- If it is then continue
-	- The game checks if that letter is in the current word
+		- if it is not then it gets pushed into the array
+	- The game checks if userGuess in the secretWord
 	- If it is in the word 
 		-an underscore in the same position is changed to
 		 that letter.
