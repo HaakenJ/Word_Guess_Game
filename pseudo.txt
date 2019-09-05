@@ -38,6 +38,14 @@ The entire game should be an object.
 	  it was on a music sheet.
 		- This would be easy to design myself.
 
+- Could actually add a button to switch to hard mode.
+	- This would change the genres to very obscure ones.
+
+- Name of game - Musical Hangman?
+
+- displayed by Easy Mode - Game mode with your basic musical genres
+- displayed by Hard Mode - Play this mode if you think you really know
+			   your obscure genres!
 
 ------To be displayed on page------
 
@@ -48,17 +56,33 @@ The entire game should be an object.
 
 
 ------Functions/ Methods------
+	
+	- getUserGuess: function(event) {
+		let userGuess = event.key;
+		return userGuess
+	
 
 	- getNewWord()
+	
+		- If hardModeBool === True
+			- let index = Math.floor(Math.random() * possibleWordsHardMode.length);
+			- return possibleWordsHardMode[index];
+		
+		- Else
+			- let index = Math.floor(Math.random() * possibleWordsEasyMode.length);
+			- return possibleWordsHardMode[index];
 
-		- Picks random word from array and assigns it to property
+		- Picks random word from array and returns it
 
 
-	- displayUnguessed(currentWord)
+	- createCurrentWordArr(currentWord)
+		- return currentWord.split('')
+			- returns an array with each character as an item
 
-		- ForEach letter in word push the letter to a blank array
 
-		- ForEach letter in the word array, push an underscore to
+	- displayUnguessed(currentWordArr)
+
+		- ForEach letter in currentWordArr, push an underscore to
 		  a blank array
 			- If the character is not a letter then just add
 			  that character to the correctGuessArr
@@ -85,16 +109,29 @@ The entire game should be an object.
 
 			- livesLeft is decremented by 1
 
-			- Hangman animation has a limb drawn on
-
-			- letterGuessed is pop'd into wrongGuessArr
+			- letterGuessed is pushed into wrongGuessArr
 			
 			- page is updated with 
 			  displayArrayAsString(wrongGuessArr, ' ')
 
 
 	- displayArrayAsString(array, separator)
-		- Joins an array as a string using separator between items
+		- *****DON'T NEED THIS JUST USE .JOIN(SEPARATOR)
+
+
+	- checkGameOver(currentWordArr, correctGuessArr)
+		- define empty array totalCorrectGuesses
+		
+		- ForEach in currentWordArr
+			- if i is in correctGuessArr
+				- push i to totalCorrectGuesses
+			- else
+				- continue
+
+		- if totalCorrectGuesses.length === currentWordArr.length
+			- return True
+		- else
+			- return False
 	
 
 	- endGameDisplays(result)
@@ -120,11 +157,18 @@ The entire game should be an object.
 
 ------Variables/ Properties-------
 
-	- possibleWords
-		- list of words that can be used by program
+	- hardModeBool
+		- set to True or False
+
+	- possibleWordsEasyMode
+		- list of words that can be used by program in easy mode
+	
+	- possbilewordsHardMode
+		- list of words that can be used by program in hard mode
 
 	- letterGuessed
 		- Assigned by key-press
+		- will be defined at the start of each game loop
 
 	- currentWord
 		- randomly picked from a word-array
@@ -137,10 +181,6 @@ The entire game should be an object.
 		- letters that haven't been guessed are shown
 		  as underscores.
 
-	- correctLetterIndex
-		- the index of the correctly guessed letter in
-		  currentWordArr
-
 	- wrongGuessArr
 		- array of letters that have been guessed and aren't
 		  in the currentWord
@@ -148,24 +188,30 @@ The entire game should be an object.
 	- livesLeft
 		- number representing how many lives/ guesses are left
 
+	- songsAndImages OBJ
+		- an object with all possible words as keys and arrays
+		  containing the image links and song links as items
+
 
 ------Pseudo Code------
 
 - A user presses a key to start
+- The game gets a word from an array
+- The word is displayed as underscores
 
 - Loop
-	- The game gets a word from an array
-	- The word is displayed as underscores
 	- The user presses a key for a letter 
 		- This is assigned to letterGuessed property
-	- The game checks if that letter is in the chosen word
+	- The game checks if the letterGuessed is in the correctGuessArr
+	  or in wrongGuessArr
+		- If it is then continue
+	- The game checks if that letter is in the current word
 	- If it is in the word 
 		-an underscore in the same position is changed to
 		 that letter.
 
 	- If it is not in the word
 		- Guesses/ lives is decremented by 1
-		- The hangman character has 1 limb drawn on.
 		- The letter is displayed under "Letters guessed"
 	- Repeat the loop until either all the letters have been guessed
 	  or guesses/ lives is reduced to 0.
@@ -183,3 +229,63 @@ The entire game should be an object.
 
 - Game automatically restarts. (Whole game should be in a loop that begins 
   with the keypress.
+
+
+
+------Genres------
+
+---Easy---
+
+- Classic Rock
+- Blues
+- Jazz
+- Pop
+- Classical
+- Punk Rock
+- Metal
+- Country
+- Bluegrass
+- Funk
+- Soul
+- Electronic
+- Hip-hop
+- Reggae
+- Indie
+- Folk
+
+---Hard---
+
+- Barouqe
+- Romatic
+- Gregorian Chant
+- Atonal
+- Crust Punk
+- Hardcore
+- Math Rock
+- Jazz-fusion
+- synthwave
+- vaporwave
+- City-pop
+- Afro-beat
+- Italo Disco
+- Soviet Disco
+- Avant-Garde
+- Krautrock
+- Experimental
+- Noise
+- Drone
+- Bossa Nova
+- Samba
+- House
+- Dubstep
+- Ambient
+- Anatolian Rock
+- Psychedelic
+- Minimalist
+- Surf Rock
+- Jazz-funk
+- Molam
+- Spoken Word
+- Latin-Funk
+- Prog-Rock
+- Cyber-Boogie
