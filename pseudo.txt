@@ -1,0 +1,185 @@
+------Requirements------
+
+A theme
+
+A css styled page
+
+Game starts on key-press
+
+Each key press is shown to the user, if it is a correct letter it is shown
+	in the word otherwise shown at the bottom as an incorrect word.
+
+Can't guess same letter twice.
+
+Only so many chances
+	For the lives, could actually have a hangman being drawn.
+		- Could figure out how to actually animate a line 
+		being drawn from top to bottom.
+
+Have background music (with a mute button) that changes depending on what
+	word gets guessed.
+
+keep track of wins
+
+
+Need array of words
+
+After user wins/loses the game should automatically choose another word
+	and make the user play it.
+
+The entire game should be an object.
+
+
+------Ideas------
+
+- Could do a general music theme, words guess are genres, music played
+  is in that genre. 
+	- The background, title, and all text could be displayed as if
+	  it was on a music sheet.
+		- This would be easy to design myself.
+
+
+------To be displayed on page------
+
+	- Press any key to get started!
+	- Wins:
+	- Number of guesses remaining:
+	- Letters guessed: 
+
+
+------Functions/ Methods------
+
+	- getNewWord()
+
+		- Picks random word from array and assigns it to property
+
+
+	- displayUnguessed(currentWord)
+
+		- ForEach letter in word push the letter to a blank array
+
+		- ForEach letter in the word array, push an underscore to
+		  a blank array
+			- If the character is not a letter then just add
+			  that character to the correctGuessArr
+
+		- use displayArrayAsString(correctGuessArr, ' ')
+			- space is passed in a separator so that there is
+			  is a space between each underscore.
+
+
+	- checkLetterGuess(letterGuessed)
+
+		- if letterGuessed is in currentWordArr:
+
+			- assign index of the corresponding letter to
+			  correctLetterIndex
+
+			- change the underscore at index correctLetterIndex
+			  to letterGuessed
+
+			- Update the page with 
+			  displayArrayAsString(correctGuessArr, ' ')
+
+		- If letterGuessed is not in currentWordArr:
+
+			- livesLeft is decremented by 1
+
+			- Hangman animation has a limb drawn on
+
+			- letterGuessed is pop'd into wrongGuessArr
+			
+			- page is updated with 
+			  displayArrayAsString(wrongGuessArr, ' ')
+
+
+	- displayArrayAsString(array, separator)
+		- Joins an array as a string using separator between items
+	
+
+	- endGameDisplays(result)
+
+		- Shows word on page
+		- Shows image for word
+		- Plays song for image
+		- If result === win
+			- Show 'You Win!'
+		- Else
+			- Show 'You lose!'
+	
+
+	- resetGame
+		- Resets livesLeft to 5
+		- resets the hangman image
+		- resets the word image to the default
+		- resets currentWordArr to blank
+		- resets the correctGuessArr to blank
+		- resets letterGuessed to empty string
+		- resets wrongGuessArr to blank
+
+
+------Variables/ Properties-------
+
+	- possibleWords
+		- list of words that can be used by program
+
+	- letterGuessed
+		- Assigned by key-press
+
+	- currentWord
+		- randomly picked from a word-array
+
+	- currentWordArr
+		- array of the letters in the currentWord
+
+	- correctGuessArr
+		- array of letters that have been guessed correctly
+		- letters that haven't been guessed are shown
+		  as underscores.
+
+	- correctLetterIndex
+		- the index of the correctly guessed letter in
+		  currentWordArr
+
+	- wrongGuessArr
+		- array of letters that have been guessed and aren't
+		  in the currentWord
+
+	- livesLeft
+		- number representing how many lives/ guesses are left
+
+
+------Pseudo Code------
+
+- A user presses a key to start
+
+- Loop
+	- The game gets a word from an array
+	- The word is displayed as underscores
+	- The user presses a key for a letter 
+		- This is assigned to letterGuessed property
+	- The game checks if that letter is in the chosen word
+	- If it is in the word 
+		-an underscore in the same position is changed to
+		 that letter.
+
+	- If it is not in the word
+		- Guesses/ lives is decremented by 1
+		- The hangman character has 1 limb drawn on.
+		- The letter is displayed under "Letters guessed"
+	- Repeat the loop until either all the letters have been guessed
+	  or guesses/ lives is reduced to 0.
+
+- Loop ends then the current game ends
+
+- The word is displayed at the top of the page
+
+- A congradulations or You Lose is displayed depending on if the player won
+  or lost.
+
+- The image is displayed for the corresponding word (object?)
+
+- A song is played corresponding to that image/word
+
+- Game automatically restarts. (Whole game should be in a loop that begins 
+  with the keypress.
