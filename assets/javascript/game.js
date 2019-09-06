@@ -90,10 +90,10 @@ let musicalHangman = {
         let secretLetters = [],
             nonAlphaChars = " !@#$%^&*()_-+={}[]|\\'\";:<>,./?";
         for (i = 0; i < this.secretWord.length; i++) {
-            if (this.lettersGuessed.includes(i)) {
-                secretLetters.push(i);
-            } else if (nonAlphaChars.includes(i)) {
-                secretLetters.push(i);
+            if (this.lettersGuessed.includes(this.secretWord[i])) {
+                secretLetters.push(this.secretWord[i]);
+            } else if (nonAlphaChars.includes(this.secretWord[i])) {
+                secretLetters.push(this.secretWord[i]);
             } else {
                 continue;
             }
@@ -127,7 +127,7 @@ let musicalHangman = {
     /* This method will be used to update the hidden word array to include
         any new letters that have been guessed. */
     updateHiddenWord: function (userGuess) {
-        var searchIndex = 0,
+        let searchIndex = 0,
             foundIndexes = [];
 
         /* This loop will search the secret word for letters that match the
@@ -136,9 +136,7 @@ let musicalHangman = {
         the index of the last found element, continuing until no more 
         matches are found. */
         while (this.secretWord.indexOf(userGuess, searchIndex) != -1) {
-            console.log(searchIndex);
             foundIndexes.push(this.secretWord.indexOf(userGuess, searchIndex));
-            console.log(foundIndexes);
             searchIndex += 1;
         }
         /* This will eliminate duplicate values that can result from the above
@@ -151,7 +149,7 @@ let musicalHangman = {
         /* This will loop through the indexes in foundIndexes and
             replace the item at each index in hiddenWordArr with the user's guess. */
         for (i = 0; i < foundIndexes.length; i++) {
-            this.hiddenWordArr = this.hiddenWordArr.splice(foundIndexes[i], 1, userGuess);
+            this.hiddenWordArr.splice(foundIndexes[i], 1, userGuess);
         }
     },
     /* This method checks if a letter has already been guessed and returns true
@@ -215,8 +213,12 @@ document.onkeyup = function () {
         /* This while true loop will continue until either guessesLeft = 0 or 
             the user guesses the whole word. Both conditions will have a 
             break statement. */
-        while (musicalHangman.guessesLeft != 0 && !musicalHangman.isWordGuessed() ) {
-
+        while (true) {
+            if (musicalHangman.guessesLeft === 0) {
+                break;
+            } else if (musicalHangman.isWordGuessed()) {
+                break;
+            }
             // function pickALetter(event) {
                 /* Prompt the user to guess a letter, this function will be 
                     in the html element with the prompt. */
