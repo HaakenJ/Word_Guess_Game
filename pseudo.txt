@@ -47,6 +47,9 @@ The entire game should be an object.
 - displayed by Hard Mode - Play this mode if you think you really know
 			   your obscure genres!
 
+- Should all the methods be updated to act on this.properties rather than passing
+	those properties in as arguments?  Probably...
+
 ------To be displayed on page------
 
 	- Press any key to get started!
@@ -197,7 +200,7 @@ The entire game should be an object.
 - Loop
 	- The user presses a key for a letter 
 		- This is assigned to userGuess variable
-	- The game checks if the letterGuessed is in the lettersGuessed array
+	- The game checks if the userGuess is in the lettersGuessed array
 		- If it is then continue
 		- if it is not then it gets pushed into the array
 	- The game checks if userGuess in the secretWord
@@ -284,3 +287,6 @@ The entire game should be an object.
 - Latin-Funk
 - Prog-Rock
 - Cyber-Boogie
+
+
+	

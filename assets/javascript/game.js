@@ -5,6 +5,7 @@ let musicalHangman = {
     secretWord: "",
     lettersGuessed: [],
     hiddenWordArr: [],
+    wrongGuesses: [],
     guessesLeft: 5,
     songsAndImages: {
         PLACEHOLDER: 'PLACEHOLDER'
@@ -19,30 +20,28 @@ let musicalHangman = {
             return this.possibleWordsEasyMode[index];
         }
     },
-    /* This method takes in a secret word string and returns an array of 
-        underscores representing the letters of the secret word.  If a 
-        character is not a letter then it is pushed into the array as is. */
-    hideSecretWord: function (secretWord) {
-        let hiddenWordArr = [];
+    /* This method updates hiddenWordArr to have an underscore for every letter
+        in the secret word.  It pushes non-alphabetic characters as they are. */
+    hideSecretWord: function () {
         let nonAlphaChars = " !@#$%^&*()_-+={}[]|\\'\";:<>,./?";
-        for (i = 0; i < secretWord.length; i++) {
-            if nonAlphaChars.includes(secretWord[i]) {
-                hiddenWordArr.push(secretWord[i]);
+        for (i = 0; i < this.secretWord.length; i++) {
+            if nonAlphaChars.includes(this.secretWord[i]) {
+                this.hiddenWordArr.push(this.secretWord[i]);
             } else {
-                hiddenWordArr.push("_");
+                this.hiddenWordArr.push("_");
             }
         }
-        return hiddenWordArr;
     },
     /* This method takes in an array and returns a string with each character
-        separated by a whitespace character.  This will only be used to display
-        the hidden characters of the secret word. */
-    displayHiddenWord: function (hiddenWordArr) {
-        return hiddenWordArr.join(" ");
+        separated by a whitespace character.  This will be used to display
+        the hidden characters of the secret word and the letters guessed 
+        so far. */
+    displayArrays: function (array) {
+        return array.join(" ");
     },
     /* This method will be used to update the hidden word array to include
         any new letters that have been guessed. */
-    updateHiddenWord: function (userGuess, secretWord, hiddenWordArr) {
+    updateHiddenWord: function (userGuess) {
         let searchIndex = 0,
             foundIndexes = [];
         /* This loop will search the secret word for letters that match the
@@ -51,8 +50,8 @@ let musicalHangman = {
             the index of the last found element, continuing until no more 
             matches are found. */
 
-        while (secretWord.indexOf(userGuess, searchIndex) != -1) {
-            foundIndexes.push(secretWord.indexOf(userGuess, searchIndex));
+        while (this.secretWord.indexOf(userGuess, searchIndex) != -1) {
+            foundIndexes.push(this.secretWord.indexOf(userGuess, searchIndex));
             searchIndex += 1;
         }
         /* This will eliminate duplicate values that can result from the above
@@ -64,31 +63,37 @@ let musicalHangman = {
         /* This will loop through the indexes in foundIndexes and
             replace the item at each index in hiddenWordArr with the user's guess. */
         for (i = 0; i < foundIndexes.length; i++) {
-            hiddenWordArr = hiddenWordArr.splice(foundIndexes[i], 1, userGuess);
+            this.hiddenWordArr = this.hiddenWordArr.splice(foundIndexes[i], 1, userGuess);
         }
     },
     /* This method checks if a letter has already been guessed and returns true
        if it has, false otherwise. */
-    hasLetterBeenGuessed: function (userGuess, lettersGuessed) {
-        if (lettersGuessed.includes(userGuess)) {
+    hasLetterBeenGuessed: function (userGuess) {
+        if (this.lettersGuessed.includes(userGuess)) {
             return true;
         } else {
             return false;
         }
     },
-    /* This method adds a guess to the lettersGuessed array and returns it. */
-    updateLettersGuessed: function (userGuess, lettersGuessed) {
-        lettersGuessed.push(userGuess);
-        return lettersGuessed;
+    /* This method adds a guess to the lettersGuessed array. */
+    updateLettersGuessed: function (userGuess) {
+        this.lettersGuessed.push(userGuess);
     },
     /* This method returns true or false depending on if the user's guess is
        in the secret word. */
-    isGuessInSecretWord: function (userGuess, secretWord) {
-        if (secretWord.includes(userGuess)) {
+    isGuessInSecretWord: function (userGuess) {
+        if (this.secretWord.includes(userGuess)) {
             return true;
         } else {
             return false;
         }
+    },
+    // Update the wrong guesses array with the wrong guess.
+    updateWrongGuesses: function (userGuess) {
+        this.wrongGuesses.push(userGuess);
+    },
+    loseAGuess: function() {
+        this.guessesLeft -= 1;
     }
 
 
