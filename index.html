@@ -26,7 +26,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h3>Displayed Hidden Word Goes Here</h3>
+                <h3>The Secret Word Is: <span id="hidden-word"></span></h3>
             </div>
         </div>
         <div class="row">
@@ -34,13 +34,16 @@
                 <img src="assets/images/image-placeholder.png" alt="placeholder">
             </div>
             <div class="col-6">
-               <p>Press any key to get started</p> 
+               <p id="action-notification"></p> 
+               <br>
                <p>Wins:</p>
-               <p>numberOfWins</p>
+               <p id="num-of-wins">numberOfWins</p>
+               <br>
                <p>Number of guesses remaining:</p>
-               <p>numberOfGuesses</p>
+               <p id="num-of-guesses">numberOfGuesses</p>
+               <br>
                <p>Letters already guessed:</p>
-               <p>L R Q M S T</p>
+               <p id="letters-guessed">L R Q M S T</p>
             </div>
         </div>
     </div>

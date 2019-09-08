@@ -10,6 +10,16 @@
     Design page with bootstrap or css.
 */
 
+const displayHiddenWord = $("#hidden-word"),
+    displayAction = $("#action-notification"),
+    displayNumOfWins = $("#num-of-wins"),
+    displayNumOfGuesses = $("num-of-guesses"),
+    displayLettersGuessed = $("letters-guessed");
+
+
+
+
+
 
 let musicalHangman = {
     hardModeBool: false,
@@ -69,6 +79,7 @@ let musicalHangman = {
     secretWord: "",
     lettersGuessed: [],
     hiddenWordArr: [],
+    joinedHiddenWord: this.displayArray(this.hiddenWordArr),
     wrongGuesses: [],
     guessesLeft: 5,
     songsAndImages: {
@@ -192,55 +203,50 @@ let musicalHangman = {
 }
 
 
-// document.onkeyup = function () {
 
-    /* This while true loop will start once a key is pressed, it will continue
-        the game as long as the page is open. */
-    while (true) {
+$(document).ready(function () {
 
-        // Assign a random word to secretWord.
-        musicalHangman.getNewWord();
-        // Reset the hidden word array.
-        musicalHangman.hiddenWordArr = [];
-        console.log('The secret word is: ' + musicalHangman.secretWord);
+    // Assign a random word to secretWord.
+    musicalHangman.getNewWord();
+    // Reset the hidden word array.
+    musicalHangman.hiddenWordArr = [];
+    console.log('The secret word is: ' + musicalHangman.secretWord);
 
-        // Create an array of underscores for the letters.
-        musicalHangman.hideSecretWord();
-        console.log('Hidden word array: ' + musicalHangman.hiddenWordArr);
+    // Create an array of underscores for the letters.
+    musicalHangman.hideSecretWord();
+    displayHiddenWord.text(musicalHangman.joinedHiddenWord);
+    console.log('Hidden word array: ' 
+    + musicalHangman.joinedHiddenWord);
 
-        // At this point an html element will invoke musicalHangman.displayArray().
+    displayAction.text("Press a key to pick your first letter!");
 
-        /* This while true loop will continue until either guessesLeft = 0 or 
-            the user guesses the whole word. Both conditions will have a 
-            break statement. */
-        while (true) {
-            if (musicalHangman.guessesLeft === 0) {
-                break;
-            } else if (musicalHangman.isWordGuessed()) {
-                break;
-            }
-            // function pickALetter(event) {
-                /* Prompt the user to guess a letter, this function will be 
-                    in the html element with the prompt. */
-            let userGuess = prompt('Enter a guess');
+    
+    /* This function will start once the user presses a key to start the game. */
+    $(document).on("keydown", function (event) {
+        let userGuess = event.which;
+        displayAction.text("You chose the letter " + userGuess);
+
             console.log('Your guess is: ' + userGuess);
 
             // Check if the letter has already been guessed.
             if (musicalHangman.hasLetterBeenGuessed(userGuess)) {
                 // Notify the user that the letter has already been guessed
-                console.log('This letter has been guessed.');
-                console.log('Letters Guessed: ' + musicalHangman.lettersGuessed);
-                continue;
+                displayAction.text('This letter has been guessed. Please try another letter.');
+                displayLettersGuessed.text(musicalHangman.lettersGuessed);
+                return;
             } else {
                 musicalHangman.updateLettersGuessed(userGuess);
-                console.log('Letters Guessed: ' + musicalHangman.lettersGuessed);
+                displayLettersGuessed.text(musicalHangman.lettersGuessed);
             }
 
             // Check if the guess is in the secret word.
             if (musicalHangman.isGuessInSecretWord(userGuess)) {
-                console.log('The guess is correct');
+/* use a function here that gets a random number to give one of
+    a few responses that are stored in an array. */
+                displayAction.text("That's right!")
                 musicalHangman.updateHiddenWord(userGuess);
-                console.log('Hidden word array: ' + musicalHangman.hiddenWordArr);
+                displayHiddenWord.text(musicalHangman(joinHiddenWord()))
+                console.log(hiddenHidden word array: ' + musicalHangman.hiddenWordArr);
                 // The html element will update with displayArray()
             } else {
                 musicalHangman.loseAGuess();
@@ -249,18 +255,18 @@ let musicalHangman = {
                 musicalHangman.updateWrongGuesses(userGuess);
                 console.log('Your wrong guesses are: ' + musicalHangman.wrongGuesses);
             }
-            
-        }
-        if (musicalHangman.guessesLeft === 0) {
-            /* Tell the user they lost, display the correct word, play
-                the corresponding song, display image, restart game. */
-            musicalHangman.restartGame();
-            console.log('No guesses left, restarting game.');
-        } else if (musicalHangman.isWordGuessed()) {
-            /* Tell the user they won, display the correct word, play
-                the corresponding song, display image, restart game. */
-            musicalHangman.restartGame();
-            console.log('Word has been guessed, restarting game.');
-        }
-    }
-}
+            if (musicalHangman.guessesLeft === 0) {
+                /* Tell the user they lost, display the correct word, play
+                    the corresponding song, display image, restart game. */
+                musicalHangman.restartGame();
+                console.log('No guesses left, restarting game.');
+            } else if (musicalHangman.isWordGuessed()) {
+                /* Tell the user they won, display the correct word, play
+                    the corresponding song, display image, restart game. */
+                musicalHangman.restartGame();
+                console.log('Word has been guessed, restarting game.');
+            }
+
+        });
+
+});
