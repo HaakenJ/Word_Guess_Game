@@ -79,7 +79,6 @@ let musicalHangman = {
     secretWord: "",
     lettersGuessed: [],
     hiddenWordArr: [],
-    joinedHiddenWord: this.displayArray(this.hiddenWordArr),
     wrongGuesses: [],
     guessesLeft: 5,
     songsAndImages: {
@@ -214,16 +213,16 @@ $(document).ready(function () {
 
     // Create an array of underscores for the letters.
     musicalHangman.hideSecretWord();
-    displayHiddenWord.text(musicalHangman.joinedHiddenWord);
+    displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "));
     console.log('Hidden word array: ' 
-    + musicalHangman.joinedHiddenWord);
+    + musicalHangman.hiddenWordArr.join(" "));
 
     displayAction.text("Press a key to pick your first letter!");
 
     
     /* This function will start once the user presses a key to start the game. */
     $(document).on("keydown", function (event) {
-        let userGuess = event.which;
+        let userGuess = event.key;
         displayAction.text("You chose the letter " + userGuess);
 
             console.log('Your guess is: ' + userGuess);
@@ -245,8 +244,7 @@ $(document).ready(function () {
     a few responses that are stored in an array. */
                 displayAction.text("That's right!")
                 musicalHangman.updateHiddenWord(userGuess);
-                displayHiddenWord.text(musicalHangman(joinHiddenWord()))
-                console.log(hiddenHidden word array: ' + musicalHangman.hiddenWordArr);
+                displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "))
                 // The html element will update with displayArray()
             } else {
                 musicalHangman.loseAGuess();
