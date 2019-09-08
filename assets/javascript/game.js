@@ -192,7 +192,7 @@ let musicalHangman = {
 }
 
 
-document.onkeyup = function () {
+// document.onkeyup = function () {
 
     /* This while true loop will start once a key is pressed, it will continue
         the game as long as the page is open. */
