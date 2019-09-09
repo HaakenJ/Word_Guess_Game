@@ -1,3 +1,19 @@
+TODO: I can get a new word and take a few actions on document.ready, 
+	these will load the first time the game starts.  I can store those 
+	actions in a function so that function can be invoked by the restart
+	method.  To include in this function:
+		- get new word
+		- display the hidden word
+	Then the actual guessing starts whenever a key is pressed.
+
+
+
+
+
+
+
+
+
 ------Requirements------
 
 A theme

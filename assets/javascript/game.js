@@ -13,8 +13,9 @@
 const displayHiddenWord = $("#hidden-word"),
     displayAction = $("#action-notification"),
     displayNumOfWins = $("#num-of-wins"),
-    displayNumOfGuesses = $("num-of-guesses"),
-    displayLettersGuessed = $("letters-guessed");
+    displayNumOfGuesses = $("#num-of-guesses"),
+    displayLettersGuessed = $("#letters-guessed"),
+    displayResult = $("#result");
 
 
 
@@ -81,9 +82,11 @@ let musicalHangman = {
     hiddenWordArr: [],
     wrongGuesses: [],
     guessesLeft: 5,
+    winTotal: 0,
     songsAndImages: {
         PLACEHOLDER: 'PLACEHOLDER'
     },
+
     // This method will return a random word from easy mode or hard mode.
     getNewWord: function () {
         if (this.hardModeBool === true) {
@@ -198,12 +201,15 @@ let musicalHangman = {
         this.hiddenWordArr = [];
         this.wrongGuesses = [];
         this.guessesLeft = 5;
+        playHangman();
     }
 }
 
 
 
-$(document).ready(function () {
+$(document).ready(playHangman());
+
+function playHangman() {
 
     // Assign a random word to secretWord.
     musicalHangman.getNewWord();
@@ -214,57 +220,78 @@ $(document).ready(function () {
     // Create an array of underscores for the letters.
     musicalHangman.hideSecretWord();
     displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "));
-    console.log('Hidden word array: ' 
-    + musicalHangman.hiddenWordArr.join(" "));
+    console.log('Hidden word array: ' +
+    musicalHangman.hiddenWordArr.join(" "));
 
     displayAction.text("Press a key to pick your first letter!");
-
     
+
+
     /* This function will start once the user presses a key to start the game. */
     $(document).on("keydown", function (event) {
         let userGuess = event.key;
+        displayNumOfWins.text(musicalHangman.winTotal);
+        displayNumOfGuesses.text(musicalHangman.guessesLeft);
+        displayLettersGuessed.text(musicalHangman.lettersGuessed);
+        
+            
+        if (musicalHangman.isWordGuessed()) {
+            /* Tell the user they won, display the correct word, play
+                the corresponding song, display image, restart game. */
+            musicalHangman.restartGame();
+            displayAction.text("That's the last letter, you win!")
+            musicalHangman.winTotal++
+            displayNumOfWins.text(musicalHangman.winTotal);
+            displayResult.text(musicalHangman.secretWord);
+
+            console.log('Word has been guessed, restarting game.');
+        }
         displayAction.text("You chose the letter " + userGuess);
+        displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
 
-            console.log('Your guess is: ' + userGuess);
+        console.log('Your guess is: ' + userGuess);
 
-            // Check if the letter has already been guessed.
-            if (musicalHangman.hasLetterBeenGuessed(userGuess)) {
-                // Notify the user that the letter has already been guessed
-                displayAction.text('This letter has been guessed. Please try another letter.');
-                displayLettersGuessed.text(musicalHangman.lettersGuessed);
-                return;
-            } else {
-                musicalHangman.updateLettersGuessed(userGuess);
-                displayLettersGuessed.text(musicalHangman.lettersGuessed);
-            }
+        // Check if the letter has already been guessed.
+        if (musicalHangman.hasLetterBeenGuessed(userGuess)) {
+            // Notify the user that the letter has already been guessed
+            displayAction.text('This letter has been guessed. Please try another letter.');
+            displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
+            return;
+        } else {
+            musicalHangman.updateLettersGuessed(userGuess);
+            displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
+        }
 
-            // Check if the guess is in the secret word.
-            if (musicalHangman.isGuessInSecretWord(userGuess)) {
-/* use a function here that gets a random number to give one of
-    a few responses that are stored in an array. */
-                displayAction.text("That's right!")
-                musicalHangman.updateHiddenWord(userGuess);
-                displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "))
-                // The html element will update with displayArray()
-            } else {
-                musicalHangman.loseAGuess();
-                console.log('You lose a guess. You have ' + musicalHangman.guessesLeft +
-                    ' guesses left.');
-                musicalHangman.updateWrongGuesses(userGuess);
-                console.log('Your wrong guesses are: ' + musicalHangman.wrongGuesses);
-            }
+        // Check if the guess is in the secret word.
+        if (musicalHangman.isGuessInSecretWord(userGuess)) {
+            /* use a function here that gets a random number to give one of
+                a few responses that are stored in an array. */
+            displayAction.text("That's right!")
+            musicalHangman.updateHiddenWord(userGuess);
+            displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "))
+        } else {
+            musicalHangman.loseAGuess();
             if (musicalHangman.guessesLeft === 0) {
                 /* Tell the user they lost, display the correct word, play
                     the corresponding song, display image, restart game. */
-                musicalHangman.restartGame();
-                console.log('No guesses left, restarting game.');
-            } else if (musicalHangman.isWordGuessed()) {
-                /* Tell the user they won, display the correct word, play
-                    the corresponding song, display image, restart game. */
-                musicalHangman.restartGame();
-                console.log('Word has been guessed, restarting game.');
+                displayAction.text("Oh no! You're out of guesses, you lost! " 
+                + "\n Press any key to play again.");
+
+                displayResult.text("The secret word was " + musicalHangman.secretWord);
+
+                $(document).on("keydown", function() {
+                    musicalHangman.restartGame();
+                    return;
+                });
+            } else {
+                displayAction.text("Uh oh wrong choice, you lose a guess.");
+                displayNumOfGuesses.text(musicalHangman.guessesLeft);
+                musicalHangman.updateWrongGuesses(userGuess);
+                console.log('Your wrong guesses are: ' + musicalHangman.wrongGuesses);
             }
+        }
 
-        });
+    });
 
-});
+
+};
