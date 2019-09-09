@@ -15,7 +15,11 @@ const displayHiddenWord = $("#hidden-word"),
     displayNumOfWins = $("#num-of-wins"),
     displayNumOfGuesses = $("#num-of-guesses"),
     displayLettersGuessed = $("#letters-guessed"),
-    displayResult = $("#result");
+    displayResult = $("#result"),
+    displaySong = $("#current-song"),
+    displayPreviousWord = $("#previous-word"),
+    displayVideo = $("#video"),
+    displayStartingImage = $("#starting-image");
 
 
 
@@ -24,22 +28,18 @@ const displayHiddenWord = $("#hidden-word"),
 
 let musicalHangman = {
     hardModeBool: false,
-    possibleWordsEasyMode: ['classic rock',
+    possibleWordsEasyMode: [
         'blues',
         'jazz',
         'pop',
         'classical',
-        'punk rock',
-        'metal',
         'country',
         'bluegrass',
         'funk',
         'soul',
         'electronic',
         'hip-hop',
-        'reggae',
-        'indie',
-        'folk'
+        'reggae'
     ],
     possibleWordsHardMode: [
         'Barouqe',
@@ -84,7 +84,17 @@ let musicalHangman = {
     guessesLeft: 5,
     winTotal: 0,
     songsAndImages: {
-        PLACEHOLDER: 'PLACEHOLDER'
+        'blues': ['R.L. Burnside - See My Jumper Hanging On The Line', '<iframe width="300" height="300" src="https://www.youtube.com/embed/K_DOnKJ232M?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'jazz': ['Wes Montgomery - Bumpin\' on Sunset', '<iframe width="300" height="300" src="https://www.youtube.com/embed/dqn3PF_DcSg?start=1007?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'pop': ['Jain - Makeba', '<iframe width="300" height="300" src="https://www.youtube.com/embed/59Q_lhgGANc?start=1007?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'classical': ['Francisco Tarrega - Recuerdos del la Alhambra - Julian Bream Performing', '<iframe width="300" height="300" src="https://www.youtube.com/embed/PqfkMgVaOeY?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'country': ['Hank Williams - I\'m So Lonely I Could Cry', '<iframe width="300" height="300" src="https://www.youtube.com/embed/4WXYjm74WFI?start=3?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'bluegrass': ['The Stanley Brothers - Mountain Dew', '<iframe width="300" height="300" src="https://www.youtube.com/embed/ug8p5pVsj9U?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'funk': ['Gil Scott Heron - Angel Dust', '<iframe width="300" height="300" src="https://www.youtube.com/embed/hWitRABYVBk?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'soul': ['Johnnie Frierson - Have You Been Good To Yourself', '<iframe width="300" height="300" src="https://www.youtube.com/embed/sgo4KegZp3k?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'electronic': ['New Order - Blue Monday', '<iframe width="300" height="300" src="https://www.youtube.com/embed/FYH8DsU2WCk?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'hip-hop': ['The Ghetto Children - Equilibrium', '<iframe width="300" height="300" src="https://www.youtube.com/embed/D0f8hpi9WEI?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'reggae': ['Jo Jo Bennett - Leaving Rome', '<iframe width="300" height="300" src="https://www.youtube.com/embed/7IutZFzbuSw?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>']
     },
 
     // This method will return a random word from easy mode or hard mode.
@@ -196,12 +206,22 @@ let musicalHangman = {
     },
     // Resets properties in the game to start over.
     restartGame: function () {
+        displayPreviousWord.text("The word was:  " + this.secretWord);
+        this.playSong();
         this.secretWord = "";
         this.lettersGuessed = [];
         this.hiddenWordArr = [];
         this.wrongGuesses = [];
         this.guessesLeft = 5;
+        displayNumOfGuesses.text(this.guessesLeft);
         playHangman();
+    },
+    playSong: function () {
+        displaySong.text(this.songsAndImages[this.secretWord][0]);
+        console.log(this.songsAndImages[this.secretWord][0])
+        displayStartingImage.hide();
+        $("iframe").remove();
+        displayVideo.append(this.songsAndImages[this.secretWord][1]);
     }
 }
 
@@ -219,79 +239,79 @@ function playHangman() {
 
     // Create an array of underscores for the letters.
     musicalHangman.hideSecretWord();
+    console.log(musicalHangman.hiddenWordArr.join(" "));
+    displayResult.text("The secret word is:  ");
     displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "));
-    console.log('Hidden word array: ' +
-    musicalHangman.hiddenWordArr.join(" "));
 
     displayAction.text("Press a key to pick your first letter!");
+    displayNumOfWins.text(musicalHangman.winTotal);
+    displayNumOfGuesses.text(musicalHangman.guessesLeft);
+    displayLettersGuessed.text((musicalHangman.lettersGuessed).toUpperCase);
+
+};
     
 
 
     /* This function will start once the user presses a key to start the game. */
-    $(document).on("keydown", function (event) {
-        let userGuess = event.key;
-        displayNumOfWins.text(musicalHangman.winTotal);
-        displayNumOfGuesses.text(musicalHangman.guessesLeft);
-        displayLettersGuessed.text(musicalHangman.lettersGuessed);
-        
-            
-        if (musicalHangman.isWordGuessed()) {
-            /* Tell the user they won, display the correct word, play
-                the corresponding song, display image, restart game. */
-            musicalHangman.restartGame();
-            displayAction.text("That's the last letter, you win!")
-            musicalHangman.winTotal++
-            displayNumOfWins.text(musicalHangman.winTotal);
-            displayResult.text(musicalHangman.secretWord);
+$(document).on("keydown", function (event) {
+    let userGuess = event.key;
+    displayNumOfWins.text(musicalHangman.winTotal);
+    displayNumOfGuesses.text(musicalHangman.guessesLeft);
+    displayLettersGuessed.text(musicalHangman.lettersGuessed);
+    displayAction.text("You chose the letter " + userGuess);
+    displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
 
-            console.log('Word has been guessed, restarting game.');
-        }
-        displayAction.text("You chose the letter " + userGuess);
+    console.log('Your guess is: ' + userGuess);
+
+    // Check if the letter has already been guessed.
+    if (musicalHangman.hasLetterBeenGuessed(userGuess)) {
+        // Notify the user that the letter has already been guessed
+        displayAction.text('This letter has been guessed. Please try another letter.');
         displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
+        return;
+    } else {
+        musicalHangman.updateLettersGuessed(userGuess);
+        displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
+    }
 
-        console.log('Your guess is: ' + userGuess);
+    // Check if the guess is in the secret word.
+    if (musicalHangman.isGuessInSecretWord(userGuess)) {
+        /* use a function here that gets a random number to give one of
+            a few responses that are stored in an array. */
+        displayAction.text("That's right!")
+        musicalHangman.updateHiddenWord(userGuess);
+        displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "))
+    } else {
+        musicalHangman.loseAGuess();
+        if (musicalHangman.guessesLeft === 0) {
+            /* Tell the user they lost, display the correct word, play
+                the corresponding song, display image, restart game. */
+            displayAction.text("Oh no! You're out of guesses, you lost! " 
+            + "\n Press any key to play again.");
 
-        // Check if the letter has already been guessed.
-        if (musicalHangman.hasLetterBeenGuessed(userGuess)) {
-            // Notify the user that the letter has already been guessed
-            displayAction.text('This letter has been guessed. Please try another letter.');
-            displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
-            return;
-        } else {
-            musicalHangman.updateLettersGuessed(userGuess);
-            displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
-        }
+            displayResult.text("The secret word was " + musicalHangman.secretWord);
 
-        // Check if the guess is in the secret word.
-        if (musicalHangman.isGuessInSecretWord(userGuess)) {
-            /* use a function here that gets a random number to give one of
-                a few responses that are stored in an array. */
-            displayAction.text("That's right!")
-            musicalHangman.updateHiddenWord(userGuess);
-            displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "))
-        } else {
-            musicalHangman.loseAGuess();
-            if (musicalHangman.guessesLeft === 0) {
-                /* Tell the user they lost, display the correct word, play
-                    the corresponding song, display image, restart game. */
-                displayAction.text("Oh no! You're out of guesses, you lost! " 
-                + "\n Press any key to play again.");
+            
+            musicalHangman.restartGame();
 
-                displayResult.text("The secret word was " + musicalHangman.secretWord);
-
-                $(document).on("keydown", function() {
-                    musicalHangman.restartGame();
-                    return;
-                });
             } else {
                 displayAction.text("Uh oh wrong choice, you lose a guess.");
                 displayNumOfGuesses.text(musicalHangman.guessesLeft);
                 musicalHangman.updateWrongGuesses(userGuess);
                 console.log('Your wrong guesses are: ' + musicalHangman.wrongGuesses);
             }
-        }
+        } 
+    if (musicalHangman.isWordGuessed()) {
+        /* Tell the user they won, display the correct word, play
+            the corresponding song, display image, restart game. */
+        displayAction.text("That's the last letter, you win!")
+        musicalHangman.winTotal++
+        displayNumOfWins.text(musicalHangman.winTotal);
+        displayResult.text(musicalHangman.secretWord);
 
-    });
+        musicalHangman.restartGame();
 
+        console.log('Word has been guessed, restarting game.');
+    }
 
-};
+});
