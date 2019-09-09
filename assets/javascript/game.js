@@ -216,18 +216,19 @@ let musicalHangman = {
         $("iframe").remove();
         displayVideo.append(this.songsAndImages[this.secretWord][1]);
     },
-    hardModeSwitch: function () {
-        if (!this.hardModeBool) {
-            this.hardModeBool = true;
-        } else {
-            this.hardModeBool = false;
-        }
-    }
 }
 
 
 
-$(document).ready(playHangman());
+function hardModeSwitch() {
+    if (!musicalHangman.hardModeBool) {
+        musicalHangman.hardModeBool = true;
+        console.log("Hard mode is now on");
+    } else {
+        musicalHangman.hardModeBool = false;
+        console.log("Hard mode is now off");
+    }
+}
 
 function playHangman() {
 
@@ -251,6 +252,9 @@ function playHangman() {
 };
     
 
+
+
+$(document).ready(playHangman());
 
     /* This function will start once the user presses a key to start the game. */
 $(document).on("keydown", function (event) {
