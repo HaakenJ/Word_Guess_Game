@@ -42,39 +42,31 @@ let musicalHangman = {
         'reggae'
     ],
     possibleWordsHardMode: [
-        'Barouqe',
-        'Romatic',
-        'Gregorian Chant',
-        'Atonal',
-        'Crust-Punk',
-        'Hardcore',
-        'Math Rock',
-        'Jazz-fusion',
+        'barouqe',
+        'romatic',
+        'gregorian-chant',
+        'atonal',
+        'hardcore',
+        'jazz-fusion',
         'synthwave',
         'vaporwave',
-        'City-pop',
-        'Afro-beat',
-        'Italo Disco',
-        'Soviet Disco',
-        'Avant-Garde',
-        'Krautrock',
-        'Experimental',
-        'Noise',
-        'Drone',
-        'Bossa Nova',
-        'Samba',
-        'House',
-        'Dubstep',
-        'Ambient',
-        'Anatolian Rock',
-        'Psychedelic',
-        'Minimalist',
-        'Surf Rock',
-        'Jazz-funk',
-        'Molam',
-        'Spoken Word',
-        'Latin-Funk',
-        'Prog-Rock',
+        'city-pop',
+        'afro-beat',
+        'italo-disco',
+        'soviet-disco',
+        'krautrock',
+        'noise',
+        'drone',
+        'bossa-nova',
+        'house',
+        'ambient',
+        'anatolian-rock',
+        'psychedelic',
+        'minimalist',
+        'surf-rock',
+        'jazz-funk',
+        'molam',
+        'latin-funk',
         'Cyber-Boogie'
     ],
     secretWord: "",
@@ -214,6 +206,7 @@ let musicalHangman = {
         this.wrongGuesses = [];
         this.guessesLeft = 5;
         displayNumOfGuesses.text(this.guessesLeft);
+        displayLettersGuessed.text(this.lettersGuessed);
         playHangman();
     },
     playSong: function () {
@@ -222,6 +215,13 @@ let musicalHangman = {
         displayStartingImage.hide();
         $("iframe").remove();
         displayVideo.append(this.songsAndImages[this.secretWord][1]);
+    },
+    hardModeSwitch: function () {
+        if (!this.hardModeBool) {
+            this.hardModeBool = true;
+        } else {
+            this.hardModeBool = false;
+        }
     }
 }
 

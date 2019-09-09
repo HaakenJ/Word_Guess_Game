@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Tangerine&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <script
         src="https://code.jquery.com/jquery-3.4.1.js"
@@ -23,11 +24,17 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container main-content">
         <div class="row">
-            <div class="col-12">
+            <div class="col-10">
                 <h3 id="result"></h3>
                 <h3 id="hidden-word"></h3>
+            </div>
+            <div class="col-2">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="hard-mode" onclick="musicalHangman.hardModeSwitch()">
+                    <label class="custom-control-label" for="hard-mode">Hard Mode</label>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -39,11 +46,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12 col-sm-10">
                         <img id="starting-image" src="assets/images/image-placeholder.png" alt="placeholder">
-                        <div id="video">
-                                
-                        </div>
+                        <div id="video"></div>
                     </div>
                 </div>
             </div>
@@ -53,10 +58,10 @@
                <p>Wins:</p>
                <p id="num-of-wins"></p>
                <br>
-               <p>Number of guesses remaining:</p>
+               <p>Guesses remaining:</p>
                <p id="num-of-guesses"></p>
                <br>
-               <p>Letters already guessed:</p>
+               <p>Letters guessed:</p>
                <p id="letters-guessed"></p>
             </div>
         </div>
