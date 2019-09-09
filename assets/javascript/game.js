@@ -1,15 +1,3 @@
-/* TODO:
-    Create html
-        - Add a switch to change this.hardModeBool
-        - Add proper functions in the proper places
-        - Add div's in proper places with id's so that their html can be 
-        changed depending on the current game status.
-    Find images and songs for all words.
-    Create background image.
-    Find musical font.
-    Design page with bootstrap or css.
-*/
-
 const displayHiddenWord = $("#hidden-word"),
     displayAction = $("#action-notification"),
     displayNumOfWins = $("#num-of-wins"),
@@ -21,9 +9,36 @@ const displayHiddenWord = $("#hidden-word"),
     displayVideo = $("#video"),
     displayStartingImage = $("#starting-image");
 
+function playHangman() {
 
+    // Assign a random word to secretWord.
+    musicalHangman.getNewWord();
+    // Reset the hidden word array.
+    musicalHangman.hiddenWordArr = [];
+    console.log('The secret word is: ' + musicalHangman.secretWord);
 
+    // Create an array of underscores for the letters.
+    musicalHangman.hideSecretWord();
+    console.log(musicalHangman.hiddenWordArr.join(" "));
+    displayResult.text("The secret word is:  ");
+    displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "));
 
+    displayAction.text("Press a key to pick your first letter!");
+    displayNumOfWins.text(musicalHangman.winTotal);
+    displayNumOfGuesses.text(musicalHangman.guessesLeft);
+    displayLettersGuessed.text((musicalHangman.lettersGuessed).toUpperCase);
+
+};
+
+function hardModeSwitch() {
+    if (!musicalHangman.hardModeBool) {
+        musicalHangman.hardModeBool = true;
+        console.log("Hard mode is now on");
+    } else {
+        musicalHangman.hardModeBool = false;
+        console.log("Hard mode is now off");
+    }
+};
 
 
 let musicalHangman = {
@@ -44,30 +59,25 @@ let musicalHangman = {
     possibleWordsHardMode: [
         'barouqe',
         'romatic',
-        'gregorian-chant',
         'atonal',
         'hardcore',
         'jazz-fusion',
-        'synthwave',
         'vaporwave',
         'city-pop',
-        'afro-beat',
+        'afrobeat',
         'italo-disco',
         'soviet-disco',
         'krautrock',
-        'noise',
-        'drone',
         'bossa-nova',
         'house',
         'ambient',
         'anatolian-rock',
         'psychedelic',
-        'minimalist',
         'surf-rock',
         'jazz-funk',
         'molam',
         'latin-funk',
-        'Cyber-Boogie'
+        'boogie'
     ],
     secretWord: "",
     lettersGuessed: [],
@@ -86,7 +96,28 @@ let musicalHangman = {
         'soul': ['Johnnie Frierson - Have You Been Good To Yourself', '<iframe width="300" height="300" src="https://www.youtube.com/embed/sgo4KegZp3k?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'electronic': ['New Order - Blue Monday', '<iframe width="300" height="300" src="https://www.youtube.com/embed/FYH8DsU2WCk?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'hip-hop': ['The Ghetto Children - Equilibrium', '<iframe width="300" height="300" src="https://www.youtube.com/embed/D0f8hpi9WEI?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
-        'reggae': ['Jo Jo Bennett - Leaving Rome', '<iframe width="300" height="300" src="https://www.youtube.com/embed/7IutZFzbuSw?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>']
+        'reggae': ['Jo Jo Bennett - Leaving Rome', '<iframe width="300" height="300" src="https://www.youtube.com/embed/7IutZFzbuSw?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'baroque': ['J.S. Bach - Air on the G String (Suite No.3, BMV 1068)', '<iframe width="300" height="300" src="https://www.youtube.com/embed/pzlw6fUux4o?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'romantic': ['Pyotr Ilyich Tchaikovsky - Piano Concerto No.1 Op.23 in B Flat Minor','<iframe width="300" height="300" src="https://www.youtube.com/embed/IL4P4OV8LVM?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'atonal': ['Anton Webern - Five Pieces for Orchestra Op.10', '<iframe width="300" height="300" src="https://www.youtube.com/embed/reqqQ-kBJQ0?start=60&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'hardcore': ['Fang - The Money Will Roll Right In', '<iframe width="300" height="300" src="https://www.youtube.com/embed/0HAPTzS6jZs?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'jazz-fusion': ['Masayoshi Takanaka - Sexy Dance', '<iframe width="300" height="300" src="https://www.youtube.com/embed/9cuxrkZeai8?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'vaporwave': ['Windows96 - Caligula', '<iframe width="300" height="300" src="https://www.youtube.com/embed/o9zZ4Gj75xs?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'city-pop': ['Tatsuro Yamashita - Sparkle', '<iframe width="300" height="300" src="https://www.youtube.com/embed/ysee78SnEA4?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'afrobeat': ['Fela Kuti - Water No Get Enemy', '<iframe width="300" height="300" src="https://www.youtube.com/embed/IQBC5URoF0s?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'italo-disco': ['My Mine - Hypnotic Tango', '<iframe width="300" height="300" src="https://www.youtube.com/embed/gHvA0QFDoVY?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'soviet-disco': ['Mirdza Zivere - Vienmer But', '<iframe width="300" height="300" src="https://www.youtube.com/embed/F4FGI314SoY&?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'krautrock': ['Kraftwerk - Autobahn', '<iframe width="300" height="300" src="https://www.youtube.com/embed/vkOZNJYAZ7c?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'bossa-nova': ['Elis Regina & Tom Jobim - Aguas de Março', '<iframe width="300" height="300" src="https://www.youtube.com/embed/E1tOV7y94DY?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'house': ['The Juan Maclean - Zone Non Linear', '<iframe width="300" height="300" src="https://www.youtube.com/embed/j6c3FdZkRYs?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'ambient': ['Hiroshi Yoshimura - Creek', '<iframe width="300" height="300" src="https://www.youtube.com/embed/D7aYjRl_6Zw?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'anatolian-rock': ['Barış Manço - Ali Yazar Veli Bozar', '<iframe width="300" height="300" src="https://www.youtube.com/embed/UMaRoL-2gIg?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'Psychedelic': ['Los Dug Dug\'s - Smog', '<iframe width="300" height="300" src="https://www.youtube.com/embed/UixdCG6NYjo?start=27&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'surf-rock': ['Takeshi Terauchi And Bunnys - Seichô Terauchi Bushi', '<iframe width="300" height="300" src="https://www.youtube.com/embed/UbSJ0HVwpzc?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'jazz-funk': ['Delvon Lamarr Organ Trio - Move On Up', '<iframe width="300" height="300" src="https://www.youtube.com/embed/jhicDUgXyNg?start=9&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'molam': ['Waipod Phetsuphan - Ding Ding Dong', '<iframe width="300" height="300" src="https://www.youtube.com/embed/r8JzYC-HCHk?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'latin-funk': ['Azymuth - Partido Alto', '<iframe width="300" height="300" src="https://www.youtube.com/embed/Hl1X0iD82a4?start=4&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'boogie': ['Pink Fink - Haunted Boogie', '<iframe width="300" height="300" src="https://www.youtube.com/embed/R_QLyaAMktQ?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>']
     },
 
     // This method will return a random word from easy mode or hard mode.
@@ -220,43 +251,9 @@ let musicalHangman = {
 
 
 
-function hardModeSwitch() {
-    if (!musicalHangman.hardModeBool) {
-        musicalHangman.hardModeBool = true;
-        console.log("Hard mode is now on");
-    } else {
-        musicalHangman.hardModeBool = false;
-        console.log("Hard mode is now off");
-    }
-}
-
-function playHangman() {
-
-    // Assign a random word to secretWord.
-    musicalHangman.getNewWord();
-    // Reset the hidden word array.
-    musicalHangman.hiddenWordArr = [];
-    console.log('The secret word is: ' + musicalHangman.secretWord);
-
-    // Create an array of underscores for the letters.
-    musicalHangman.hideSecretWord();
-    console.log(musicalHangman.hiddenWordArr.join(" "));
-    displayResult.text("The secret word is:  ");
-    displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "));
-
-    displayAction.text("Press a key to pick your first letter!");
-    displayNumOfWins.text(musicalHangman.winTotal);
-    displayNumOfGuesses.text(musicalHangman.guessesLeft);
-    displayLettersGuessed.text((musicalHangman.lettersGuessed).toUpperCase);
-
-};
-    
-
-
-
 $(document).ready(playHangman());
 
-    /* This function will start once the user presses a key to start the game. */
+/* This function will start once the user presses a key to start the game. */
 $(document).on("keydown", function (event) {
     let userGuess = event.key;
     displayNumOfWins.text(musicalHangman.winTotal);
@@ -290,21 +287,21 @@ $(document).on("keydown", function (event) {
         if (musicalHangman.guessesLeft === 0) {
             /* Tell the user they lost, display the correct word, play
                 the corresponding song, display image, restart game. */
-            displayAction.text("Oh no! You're out of guesses, you lost! " 
-            + "\n Press any key to play again.");
+            displayAction.text("Oh no! You're out of guesses, you lost! " +
+                "\n Press any key to play again.");
 
             displayResult.text("The secret word was " + musicalHangman.secretWord);
 
-            
+
             musicalHangman.restartGame();
 
-            } else {
-                displayAction.text("Uh oh wrong choice, you lose a guess.");
-                displayNumOfGuesses.text(musicalHangman.guessesLeft);
-                musicalHangman.updateWrongGuesses(userGuess);
-                console.log('Your wrong guesses are: ' + musicalHangman.wrongGuesses);
-            }
-        } 
+        } else {
+            displayAction.text("Uh oh wrong choice, you lose a guess.");
+            displayNumOfGuesses.text(musicalHangman.guessesLeft);
+            musicalHangman.updateWrongGuesses(userGuess);
+            console.log('Your wrong guesses are: ' + musicalHangman.wrongGuesses);
+        }
+    }
     if (musicalHangman.isWordGuessed()) {
         /* Tell the user they won, display the correct word, play
             the corresponding song, display image, restart game. */
