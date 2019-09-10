@@ -7,6 +7,15 @@ TODO: Change the amount of wins and the amount of guesses left to musical notes.
 
 		Have the switch to hard mode actually start a new word in hard mode.
 
+		make the text in actiondisplay larger
+
+		Capitalize first letter of the name of the genre when you display the result.
+
+		maybe a line break between the displayed secret word and the name of the song
+
+		Could use a font change or something with the left side text.  Text all seems to	
+		blur together as of now.  Looks boring.
+
 
 
 
