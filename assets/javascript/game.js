@@ -68,7 +68,7 @@ let musicalHangman = {
     ],
     possibleWordsHardMode: [
         'barouqe',
-        'romatic',
+        'romantic',
         'atonal',
         'hardcore',
         'jazz-fusion',
@@ -337,3 +337,13 @@ $(document).on("keydown", function (event) {
     }
 
 });
+
+
+
+
+
+
+
+
+
+
