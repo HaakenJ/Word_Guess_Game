@@ -1,10 +1,13 @@
-TODO: I can get a new word and take a few actions on document.ready, 
-	these will load the first time the game starts.  I can store those 
-	actions in a function so that function can be invoked by the restart
-	method.  To include in this function:
-		- get new word
-		- display the hidden word
-	Then the actual guessing starts whenever a key is pressed.
+TODO: Change the amount of wins and the amount of guesses left to musical notes.
+		append or remove more notes each time you get a win or lose a guess.
+
+		Make a check function to stop the game from accepting non-alphabetic keys.
+
+		Try to center the secret word under the title. 
+
+		Have the switch to hard mode actually start a new word in hard mode.
+
+
 
 
 
