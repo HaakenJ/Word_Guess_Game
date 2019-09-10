@@ -1,20 +1,17 @@
-TODO: Change the amount of wins and the amount of guesses left to musical notes.
+TODO: Change the amount of wins and the amount of guesses left to musical notes. -------------
 		append or remove more notes each time you get a win or lose a guess.
 
-		Make a check function to stop the game from accepting non-alphabetic keys.
+		Make a check function to stop the game from accepting non-alphabetic keys.  --------------
 
 		Try to center the secret word under the title. 
 
-		Have the switch to hard mode actually start a new word in hard mode.
+		Have the switch to hard mode actually start a new word in hard mode.  -------------------
 
-		make the text in actiondisplay larger
+		make the text in actiondisplay larger ----------------------
 
-		Capitalize first letter of the name of the genre when you display the result.
+		Capitalize first letter of the name of the genre when you display the result. ------------------
 
-		maybe a line break between the displayed secret word and the name of the song
-
-		Could use a font change or something with the left side text.  Text all seems to	
-		blur together as of now.  Looks boring.
+		maybe a line break between the displayed secret word and the name of the song -----------------
 
 
 

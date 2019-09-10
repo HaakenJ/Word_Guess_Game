@@ -9,6 +9,9 @@ const displayHiddenWord = $("#hidden-word"),
     displayVideo = $("#video"),
     displayStartingImage = $("#starting-image");
 
+/* Function used to play a new game of hangman.  It gets a new secret word,
+    hides the word as underscores, and displays the word, guesses, wins, and 
+    letters guessed. */
 function playHangman() {
 
     // Assign a random word to secretWord.
@@ -24,12 +27,13 @@ function playHangman() {
     displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "));
 
     displayAction.text("Press a key to pick your first letter!");
-    displayNumOfWins.text(musicalHangman.winTotal);
-    displayNumOfGuesses.text(musicalHangman.guessesLeft);
+    displayNumOfWins.text(musicalHangman.displayArray(musicalHangman.winTotal));
+    displayNumOfGuesses.text(musicalHangman.displayArray(musicalHangman.guessesLeft));
     displayLettersGuessed.text((musicalHangman.lettersGuessed).toUpperCase);
 
 };
 
+// Change the hard mode boolean when the toggle switch is clicked.
 function hardModeSwitch() {
     if (!musicalHangman.hardModeBool) {
         musicalHangman.hardModeBool = true;
@@ -38,6 +42,12 @@ function hardModeSwitch() {
         musicalHangman.hardModeBool = false;
         console.log("Hard mode is now off");
     }
+    playHangman();
+};
+
+// Function to check if a key event is alphabetic and only one character.
+function isAlpha(key) {
+    return (/[A-Z]/i.test(key) && key.length === 1);
 };
 
 
@@ -79,12 +89,11 @@ let musicalHangman = {
         'latin-funk',
         'boogie'
     ],
-    secretWord: "",
+    secretWord: '',
     lettersGuessed: [],
     hiddenWordArr: [],
-    wrongGuesses: [],
-    guessesLeft: 5,
-    winTotal: 0,
+    guessesLeft: ['\u266A', '\u266A', '\u266A', '\u266A', '\u266A'],
+    winTotal: [],
     songsAndImages: {
         'blues': ['R.L. Burnside - See My Jumper Hanging On The Line', '<iframe width="300" height="300" src="https://www.youtube.com/embed/K_DOnKJ232M?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'jazz': ['Wes Montgomery - Bumpin\' on Sunset', '<iframe width="300" height="300" src="https://www.youtube.com/embed/dqn3PF_DcSg?start=1007?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
@@ -98,7 +107,7 @@ let musicalHangman = {
         'hip-hop': ['The Ghetto Children - Equilibrium', '<iframe width="300" height="300" src="https://www.youtube.com/embed/D0f8hpi9WEI?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'reggae': ['Jo Jo Bennett - Leaving Rome', '<iframe width="300" height="300" src="https://www.youtube.com/embed/7IutZFzbuSw?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'baroque': ['J.S. Bach - Air on the G String (Suite No.3, BMV 1068)', '<iframe width="300" height="300" src="https://www.youtube.com/embed/pzlw6fUux4o?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
-        'romantic': ['Pyotr Ilyich Tchaikovsky - Piano Concerto No.1 Op.23 in B Flat Minor','<iframe width="300" height="300" src="https://www.youtube.com/embed/IL4P4OV8LVM?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
+        'romantic': ['Pyotr Ilyich Tchaikovsky - Piano Concerto No.1 Op.23 in B Flat Minor', '<iframe width="300" height="300" src="https://www.youtube.com/embed/IL4P4OV8LVM?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'atonal': ['Anton Webern - Five Pieces for Orchestra Op.10', '<iframe width="300" height="300" src="https://www.youtube.com/embed/reqqQ-kBJQ0?start=60&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'hardcore': ['Fang - The Money Will Roll Right In', '<iframe width="300" height="300" src="https://www.youtube.com/embed/0HAPTzS6jZs?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
         'jazz-fusion': ['Masayoshi Takanaka - Sexy Dance', '<iframe width="300" height="300" src="https://www.youtube.com/embed/9cuxrkZeai8?&autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'],
@@ -220,23 +229,18 @@ let musicalHangman = {
             return false;
         }
     },
-    // Update the wrong guesses array with the wrong guess.
-    updateWrongGuesses: function (userGuess) {
-        this.wrongGuesses.push(userGuess);
-    },
     loseAGuess: function () {
-        this.guessesLeft -= 1;
+        this.guessesLeft.pop();
     },
     // Resets properties in the game to start over.
     restartGame: function () {
-        displayPreviousWord.text("The word was:  " + this.secretWord);
+        displayPreviousWord.text("The word was:  " + this.capitalizeFirstLetter(this.secretWord));
         this.playSong();
         this.secretWord = "";
         this.lettersGuessed = [];
         this.hiddenWordArr = [];
-        this.wrongGuesses = [];
-        this.guessesLeft = 5;
-        displayNumOfGuesses.text(this.guessesLeft);
+        this.guessesLeft = ['\u266A', '\u266A', '\u266A', '\u266A', '\u266A'];
+        displayNumOfGuesses.text(this.displayArray(this.guessesLeft));
         displayLettersGuessed.text(this.lettersGuessed);
         playHangman();
     },
@@ -247,6 +251,11 @@ let musicalHangman = {
         $("iframe").remove();
         displayVideo.append(this.songsAndImages[this.secretWord][1]);
     },
+    /* Using a regex and .replace() to find the character at the beggining
+       of the inputted string and converting it to uppercase. */
+    capitalizeFirstLetter: function (inputString) {
+        return inputString.replace(/^\w/, c => c.toUpperCase());
+    }
 }
 
 
@@ -255,11 +264,23 @@ $(document).ready(playHangman());
 
 /* This function will start once the user presses a key to start the game. */
 $(document).on("keydown", function (event) {
-    let userGuess = event.key;
-    displayNumOfWins.text(musicalHangman.winTotal);
-    displayNumOfGuesses.text(musicalHangman.guessesLeft);
+    let userGuess
+    /* This variable will be the value of userGuess if the user doesn't choose
+        a proper letter.  It will increment each time so that the 
+        hasLetterBeenGuessed() method won't be triggered. */
+    let nonAlphaGuess = 0;
+    if (isAlpha(event.key)) {
+        userGuess = event.key;
+    } else {
+        displayAction.text("That was not a letter, you lose a guess.");
+        userGuess = nonAlphaGuess++;
+    }
+    displayNumOfWins.text(musicalHangman.displayArray(musicalHangman.winTotal));
+    displayNumOfGuesses.text(musicalHangman.displayArray(musicalHangman.guessesLeft));
     displayLettersGuessed.text(musicalHangman.lettersGuessed);
-    displayAction.text("You chose the letter " + userGuess);
+    if (isAlpha(userGuess)) {
+        displayAction.text("You chose the letter " + userGuess);
+    }
     displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
 
     console.log('Your guess is: ' + userGuess);
@@ -270,10 +291,12 @@ $(document).on("keydown", function (event) {
         displayAction.text('This letter has been guessed. Please try another letter.');
         displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
         return;
-    } else {
+    } else if (isAlpha(userGuess)) {
         musicalHangman.updateLettersGuessed(userGuess);
         displayLettersGuessed.text(musicalHangman.lettersGuessed.join(" "));
-    }
+        /* If the value of userGuess is not a letter (i.e. it was assigned the
+            nonAlphaGuess value above) then it is not added to lettersGuessed.*/
+    } else {}
 
     // Check if the guess is in the secret word.
     if (musicalHangman.isGuessInSecretWord(userGuess)) {
@@ -284,7 +307,7 @@ $(document).on("keydown", function (event) {
         displayHiddenWord.text(musicalHangman.hiddenWordArr.join(" "))
     } else {
         musicalHangman.loseAGuess();
-        if (musicalHangman.guessesLeft === 0) {
+        if (musicalHangman.guessesLeft.length === 0) {
             /* Tell the user they lost, display the correct word, play
                 the corresponding song, display image, restart game. */
             displayAction.text("Oh no! You're out of guesses, you lost! " +
@@ -295,19 +318,17 @@ $(document).on("keydown", function (event) {
 
             musicalHangman.restartGame();
 
-        } else {
+        } else if (isAlpha(userGuess)){
             displayAction.text("Uh oh wrong choice, you lose a guess.");
-            displayNumOfGuesses.text(musicalHangman.guessesLeft);
-            musicalHangman.updateWrongGuesses(userGuess);
-            console.log('Your wrong guesses are: ' + musicalHangman.wrongGuesses);
-        }
+            displayNumOfGuesses.text(musicalHangman.displayArray(musicalHangman.guessesLeft));
+        } else {}
     }
     if (musicalHangman.isWordGuessed()) {
         /* Tell the user they won, display the correct word, play
             the corresponding song, display image, restart game. */
         displayAction.text("That's the last letter, you win!")
-        musicalHangman.winTotal++
-        displayNumOfWins.text(musicalHangman.winTotal);
+        musicalHangman.winTotal.push('\u266A');
+        displayNumOfWins.text(musicalHangman.displayArray(musicalHangman.winTotal));
         displayResult.text(musicalHangman.secretWord);
 
         musicalHangman.restartGame();
